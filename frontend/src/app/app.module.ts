@@ -42,6 +42,9 @@ import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { SharedModule } from './shared/shared.module';
 
+import { NewsFeedComponent } from './news/news-feed/news-feed.component';
+import { NewsPostDetailsCard } from './news/widgets/news-post-details-card/news-post-details-card.widget';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +54,11 @@ import { SharedModule } from './shared/shared.module';
     HomeComponent,
     AboutComponent,
     GateComponent,
-    ProfileEditorComponent
+    ProfileEditorComponent,
+
+    //News
+    NewsFeedComponent,
+    NewsPostDetailsCard
   ],
   imports: [
     /* Angular */

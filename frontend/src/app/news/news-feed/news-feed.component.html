@@ -1,0 +1,7 @@
+<mat-card class="content" appearance="outlined">
+  <mat-card-content>
+    <button mat-stroked-button>Create</button>
+
+    <news-post-details-card [news_post]="post" *ngFor="let post of postList" />
+  </mat-card-content>
+</mat-card>

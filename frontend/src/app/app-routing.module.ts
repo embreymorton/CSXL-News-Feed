@@ -10,7 +10,6 @@ import { NewsFeedComponent } from './news/news-feed/news-feed.component';
 const routes: Routes = [
   HomeComponent.Route,
   AboutComponent.Route,
-  ProfileEditorComponent.Route,
   GateComponent.Route,
   NewsFeedComponent.Route,
   {
@@ -18,6 +17,12 @@ const routes: Routes = [
     title: 'Cowork in the XL',
     loadChildren: () =>
       import('./coworking/coworking.module').then((m) => m.CoworkingModule)
+  },
+  {
+    path: 'profile',
+    title: 'Profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule)
   },
   {
     path: 'academics',

@@ -1,0 +1,58 @@
+<mat-card
+  class="organization-card"
+  *ngIf="news_post !== undefined"
+  appearance="outlined">
+  <!-- Organization Card Header (Image, Name, Description) -->
+  <mat-card-header class="organization-header">
+    <div class="left-header-info">
+      <!-- Organization Logo (Laptops/Monitors) -->
+      <!-- <img mat-card-image src="{{ organization!.logo }}" class="logo" /> -->
+    </div>
+    <div class="right-header-info">
+      <!-- Organization Name, Logo, and Social Media -->
+      <div class="organization-top-header-group">
+        <!-- Organization Logo (Tablets/Phones)
+        <img
+          mat-card-image
+          src="{{ organization!.logo }}"
+          class="logo"
+          *ngIf="isTablet || isHandset"
+          [ngStyle]="{
+            width: '32px',
+            height: '32px',
+            'margin-right': '16px'
+          }" /> -->
+
+        <!-- News Post Headline -->
+        <div class="organization-name-section">
+          <mat-card-title class="user-name">
+            {{ news_post!.headline }}
+          </mat-card-title>
+        </div>
+      </div>
+
+      <!-- News Post Story -->
+      <p class="organization-description">
+        {{ news_post!.main_story }}
+      </p>
+      <ng-template #short_description>
+        {{ news_post!.synopsis }}
+      </ng-template>
+
+      <!-- News Post Author -->
+      <p class="organization-description">
+        {{ news_post!.author }}
+      </p>
+
+      <!-- News Post Publish Date -->
+      <p class="organization-description">
+        {{ news_post!.publish_date }}
+      </p>
+
+      <!-- News Post Modification Date -->
+      <p class="organization-description">
+        {{ news_post!.modification_date }}
+      </p>
+    </div>
+  </mat-card-header>
+</mat-card>

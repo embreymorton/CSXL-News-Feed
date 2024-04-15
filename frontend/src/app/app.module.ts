@@ -54,7 +54,6 @@ import { NewsPostDetailsCard } from './news/widgets/news-post-details-card/news-
     HomeComponent,
     AboutComponent,
     GateComponent,
-    ProfileEditorComponent,
 
     //News
     NewsFeedComponent,

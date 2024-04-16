@@ -7,17 +7,37 @@
  * @license MIT
  */
 
+import { Organization } from 'src/app/organization/organization.model';
+
 /** Interface for Organization Type (used on frontend for organization detail) */
 export interface NewsPost {
-  id: number;
+  id: number | null;
   headline: string;
   synopsis: string;
   main_story: string;
   author: string;
-  organization: string;
+  organization_id?: number;
   state: string;
   slug: string;
   image_url: string;
-  publish_date: string;
-  modification_date: string;
+  time: Date;
+  modification_date: Date;
 }
+
+export interface NewsPostJson {
+  id: number | null;
+  headline: string;
+  synopsis: string;
+  main_story: string;
+  author: string;
+  organization_id: number;
+  state: string;
+  slug: string;
+  image_url: string;
+  time: Date;
+  modification_date: Date;
+}
+
+export const parsePostJson = (postJson: NewsPostJson): NewsPost => {
+  return Object.assign({}, postJson, { time: new Date(postJson.time) });
+};

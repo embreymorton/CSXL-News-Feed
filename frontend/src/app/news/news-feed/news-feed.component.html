@@ -1,7 +1,54 @@
-<mat-card class="content" appearance="outlined">
-  <mat-card-content>
-    <button mat-stroked-button>Create</button>
+<div>
+  <div class="parameter-bar">
+    <search-bar
+      class="search-bar"
+      [searchBarQuery]="searchBarQuery"
+      (searchBarQueryChange)="this.searchUpdate.next($event)" />
+  </div>
 
-    <news-post-details-card [news_post]="post" *ngFor="let post of postList" />
-  </mat-card-content>
-</mat-card>
+  <div class="container">
+    <div class="events-grid">
+      <div class="events-column">
+        <!-- `postsPerDay` is in the format of a list of tuples, where
+                    postGroup[0] is the date string and postGroup[1] is a list of posts -->
+        <mat-card class="date-range" appearance="outlined">
+          <button mat-icon-button (click)="showPosts(true)">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+          <p *ngIf="today; else not_today" class="date-range-text">
+            Today <code>&#8212;</code> {{ endDate | date: 'mediumDate' }}
+          </p>
+          <ng-template #not_today>
+            <p class="date-range-text">
+              {{ startDate | date: 'mediumDate' }}
+              <code>&#8212;</code>
+              {{ endDate | date: 'mediumDate' }}
+            </p>
+          </ng-template>
+          <button mat-icon-button (click)="showPosts(false)">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </mat-card>
+        <news-list
+          [postsPerDay]="postsPerDay"
+          [selectedPost]="selectedPost"
+          [disableLinks]="innerWidth > 900"
+          (cardClicked)="onPostCardClicked($event)"
+          [fullWidth]="true" />
+      </div>
+
+      <div class="details-column">
+        <news-post-details-card
+          [post]="selectedPost!"
+          [profile]="profile"
+          *ngIf="selectedPost" />
+      </div>
+    </div>
+    <!-- Create Post Button -->
+    <div class="create-button">
+      <button mat-stroked-button [routerLink]="['new', 'edit']">
+        Create Post
+      </button>
+    </div>
+  </div>
+</div>

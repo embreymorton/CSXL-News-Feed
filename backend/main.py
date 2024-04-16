@@ -18,6 +18,7 @@ from .api import (
     authentication,
     user,
     room,
+    news_posts
 )
 from .api.coworking import status, reservation, ambassador, operating_hours
 from .api.academics import term, course, section
@@ -53,6 +54,7 @@ app = FastAPI(
         health.openapi_tags,
         admin_users.openapi_tags,
         admin_roles.openapi_tags,
+        news_posts.openapi_tags
     ],
 )
 
@@ -77,6 +79,7 @@ feature_apis = [
     course,
     section,
     room,
+    news_posts
 ]
 
 for feature_api in feature_apis:

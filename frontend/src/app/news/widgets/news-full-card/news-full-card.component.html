@@ -1,0 +1,23 @@
+<mat-card class="news-post-container">
+  <mat-card-title class="header">
+    {{ post.headline }}
+  </mat-card-title>
+
+  <div></div>
+
+  <mat-card-title class="author">
+    {{ post.author + ': ' + (post.time | date: 'mediumDate') }}
+  </mat-card-title>
+
+  <div></div>
+
+  <mat-card-title class="main_story" *ngFor="let paragraph of paragraphs">
+    {{ paragraph }}
+  </mat-card-title>
+
+  <!-- <div>
+    <img
+      class="image"
+      src="https://lh4.googleusercontent.com/proxy/ViNUZn1QZCXgV15mfoaD5HqwrXtKDDqArtdhpgNCSeouTrikhQinellOZABzTxBg82jwGLz_gBQKqcKmnLR3M7w" />
+  </div> -->
+</mat-card>

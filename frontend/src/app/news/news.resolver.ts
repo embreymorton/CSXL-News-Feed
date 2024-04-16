@@ -22,17 +22,17 @@ export const NewsPostDetailResolver: ResolveFn<NewsPost | undefined> = (
   // If the organization is new, return a blank one
   if (route.paramMap.get('slug')! == 'new') {
     return {
-      id: -1,
+      id: 0,
       headline: '',
       synopsis: '',
       main_story: '',
-      author: '',
-      organization: '',
+      author: 'String',
+      organization: undefined,
       state: '',
       slug: '',
       image_url: '',
-      publish_date: '',
-      modification_date: ''
+      time: new Date(),
+      modification_date: new Date()
     };
   }
 

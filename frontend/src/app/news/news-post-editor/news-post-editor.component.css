@@ -15,3 +15,7 @@
   mat-card-content {
     margin-top: 8px;
   }
+
+  .main-story-textarea {
+    height: 1000px; 
+  }

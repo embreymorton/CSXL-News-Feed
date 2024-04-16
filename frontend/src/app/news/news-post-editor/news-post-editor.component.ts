@@ -42,7 +42,7 @@ const canActivateEditor: CanActivateFn = (
 export class NewsPostEditorComponent {
   /** Route information to be used in Organization Routing Module */
   public static Route: Route = {
-    path: ':slug/edit',
+    path: 'news/:slug/edit',
     component: NewsPostEditorComponent,
     title: 'News Post Editor',
     canActivate: [canActivateEditor],
@@ -72,19 +72,22 @@ export class NewsPostEditorComponent {
     Validators.required,
     Validators.maxLength(15000)
   ]);
+  synopsis = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(15000)
+  ]);
   main_story = new FormControl('', [Validators.maxLength(200000000000)]);
 
   /** Organization Editor Form */
   public newsPostForm = this.formBuilder.group({
     headline: this.headline,
+    synopsis: this.synopsis,
     main_story: this.main_story,
     author: this.author,
-    organization: '',
+    organization: undefined,
     state: '',
     slug: this.slug,
-    image_url: '',
-    publish_date: '',
-    modification_date: ''
+    image_url: ''
   });
 
   /** Constructs the organization editor component */
@@ -103,22 +106,23 @@ export class NewsPostEditorComponent {
     this.profile = data.profile;
     this.newsPost = data.newsPost;
 
-    /** Set organization form data */
-    this.newsPostForm.setValue({
-      headline: this.newsPost.headline,
-      main_story: this.newsPost.main_story,
-      author: this.newsPost.author,
-      organization: this.newsPost.organization,
-      state: this.newsPost.state,
-      slug: this.newsPost.slug,
-      image_url: this.newsPost.image_url,
-      publish_date: this.newsPost.publish_date,
-      modification_date: this.newsPost.modification_date
-    });
-
     /** Get id from the url */
     let newsPost_slug = this.route.snapshot.params['slug'];
     this.newsPost_slug = newsPost_slug;
+
+    if (newsPost_slug != 'new') {
+      /** Set organization form data */
+      this.newsPostForm.setValue({
+        headline: this.newsPost.headline,
+        synopsis: this.newsPost.synopsis,
+        main_story: this.newsPost.main_story,
+        author: this.newsPost.author,
+        organization: this.newsPost.organization_id,
+        state: this.newsPost.state,
+        slug: this.newsPost.slug,
+        image_url: this.newsPost.image_url
+      });
+    }
   }
 
   /** Event handler to handle submitting the Update Organization Form.
@@ -128,11 +132,17 @@ export class NewsPostEditorComponent {
     if (this.newsPostForm.valid) {
       Object.assign(this.newsPost, this.newsPostForm.value);
       if (this.newsPost_slug == 'new') {
+        this.newsPost.id = null;
+        this.newsPost.time = new Date();
+        this.newsPost.modification_date = new Date();
+
+        console.log(this.newsPost);
         this.newsPostService.createNewsPost(this.newsPost).subscribe({
           next: (newsPost) => this.onSuccess(newsPost),
           error: (err) => this.onError(err)
         });
       } else {
+        this.newsPost.modification_date = new Date();
         this.newsPostService.updateNewsPost(this.newsPost).subscribe({
           next: (newsPost) => this.onSuccess(newsPost),
           error: (err) => this.onError(err)
@@ -146,7 +156,7 @@ export class NewsPostEditorComponent {
    * @returns {void}
    */
   onCancel(): void {
-    this.router.navigate([`organizations/${this.newsPost_slug}`]);
+    this.router.navigate([`news`]);
   }
 
   /** Event handler to handle the first change in the organization name field
@@ -166,12 +176,10 @@ export class NewsPostEditorComponent {
    * @returns {void}
    */
   private onSuccess(newsPost: NewsPost): void {
-    this.router.navigate(['/organizations/', newsPost.slug]);
+    this.router.navigate(['/news/', newsPost.slug]);
 
     let message: string =
-      this.newsPost_slug === 'new'
-        ? 'Organization Created'
-        : 'Organization Updated';
+      this.newsPost_slug === 'new' ? 'Post Created' : 'Post Updated';
 
     this.snackBar.open(message, '', { duration: 2000 });
   }
@@ -182,8 +190,8 @@ export class NewsPostEditorComponent {
   private onError(err: any): void {
     let message: string =
       this.newsPost_slug === 'new'
-        ? 'Error: Organization Not Created'
-        : 'Error: Organization Not Updated';
+        ? 'Error: Post Not Created'
+        : 'Error: Post Not Updated';
 
     this.snackBar.open(message, '', {
       duration: 2000

@@ -18,6 +18,8 @@ from .event_registration import (
     NewEventRegistration,
 )
 from .registration_type import RegistrationType
+from .news_post import NewsPost
+from .news_post_details import NewsPostDetails
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"

@@ -45,6 +45,12 @@ import { SharedModule } from './shared/shared.module';
 import { NewsFeedComponent } from './news/news-feed/news-feed.component';
 import { NewsPostDetailsCard } from './news/widgets/news-post-details-card/news-post-details-card.widget';
 
+import { NewsCard } from './news/widgets/news-card/news-card.widget';
+import { NewsList } from './news/widgets/news-list/news-list.widget';
+import { NewsPostEditorComponent } from './news/news-post-editor/news-post-editor.component';
+import { NewsPostComponent } from './news/news-post/news-post.component';
+import { NewsFullCardComponent } from './news/widgets/news-full-card/news-full-card.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,8 +62,13 @@ import { NewsPostDetailsCard } from './news/widgets/news-post-details-card/news-
     GateComponent,
 
     //News
+    NewsPostComponent,
     NewsFeedComponent,
-    NewsPostDetailsCard
+    NewsPostDetailsCard,
+    NewsCard,
+    NewsList,
+    NewsPostEditorComponent,
+    NewsFullCardComponent
   ],
   imports: [
     /* Angular */

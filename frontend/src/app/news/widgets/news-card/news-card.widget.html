@@ -1,0 +1,25 @@
+<!-- News Card -->
+<mat-card
+  [ngClass]="selected && disableLink ? 'selected-card' : ''"
+  appearance="outlined"
+  class="event-card"
+  [routerLink]="disableLink ? null : '/news/' + post.slug"
+  (click)="cardClicked()">
+  <!-- Inner Columns -->
+  <div class="inner-column">
+    <div class="header-section">
+      <p class="event-name">{{ post.headline }}</p>
+      <p class="event-date">
+        {{ post.time | date: 'shortTime' }}
+      </p>
+    </div>
+    <div class="content-section">
+      <p class="event-shorthand">
+        {{ post.synopsis }}
+      </p>
+      <p class="event-location">
+        {{ post.author }}
+      </p>
+    </div>
+  </div>
+</mat-card>

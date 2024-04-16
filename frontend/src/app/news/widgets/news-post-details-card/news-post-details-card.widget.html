@@ -1,58 +1,63 @@
-<mat-card
-  class="organization-card"
-  *ngIf="news_post !== undefined"
-  appearance="outlined">
-  <!-- Organization Card Header (Image, Name, Description) -->
-  <mat-card-header class="organization-header">
-    <div class="left-header-info">
-      <!-- Organization Logo (Laptops/Monitors) -->
-      <!-- <img mat-card-image src="{{ organization!.logo }}" class="logo" /> -->
+<!-- Event Detail Card -->
+<mat-card class="event-detail-card" appearance="outlined">
+  <!-- Title Section -->
+  <div class="event-title-container">
+    <!-- Title -->
+    <div class="event-title">
+      <mat-card-title [routerLink]="[post.id]">
+        {{ post.headline }}
+      </mat-card-title>
     </div>
-    <div class="right-header-info">
-      <!-- Organization Name, Logo, and Social Media -->
-      <div class="organization-top-header-group">
-        <!-- Organization Logo (Tablets/Phones)
-        <img
-          mat-card-image
-          src="{{ organization!.logo }}"
-          class="logo"
-          *ngIf="isTablet || isHandset"
-          [ngStyle]="{
-            width: '32px',
-            height: '32px',
-            'margin-right': '16px'
-          }" /> -->
 
-        <!-- News Post Headline -->
-        <div class="organization-name-section">
-          <mat-card-title class="user-name">
-            {{ news_post!.headline }}
-          </mat-card-title>
-        </div>
-      </div>
-
-      <!-- News Post Story -->
-      <p class="organization-description">
-        {{ news_post!.main_story }}
-      </p>
-      <ng-template #short_description>
-        {{ news_post!.synopsis }}
-      </ng-template>
-
-      <!-- News Post Author -->
-      <p class="organization-description">
-        {{ news_post!.author }}
-      </p>
-
-      <!-- News Post Publish Date -->
-      <p class="organization-description">
-        {{ news_post!.publish_date }}
-      </p>
-
-      <!-- News Post Modification Date -->
-      <p class="organization-description">
-        {{ news_post!.modification_date }}
-      </p>
+    <!-- Buttons -->
+    <div class="event-actions">
+      <button mat-icon-button [routerLink]="[post.slug, 'edit']">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deletePost(post)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onShareButtonClick()">
+        <mat-icon>share</mat-icon>
+      </button>
     </div>
-  </mat-card-header>
+  </div>
+  <mat-divider id="top-divider" />
+
+  <!-- Organization Section -->
+  <div class="organization-section">
+    <!-- Organization Icon -->
+    <!-- Organization Name -->
+  </div>
+
+  <mat-divider class="padded-divider" />
+
+  <!-- Description -->
+  <div class="event-description">
+    <p>{{ post.synopsis }}</p>
+  </div>
+
+  <mat-divider class="padded-divider" />
+
+  <!-- Logistical Information -->
+  <div>
+    <p>
+      <strong>Published:</strong> {{ post.time | date: 'mediumDate' }}
+      {{ post.time | date: 'shortTime' }}
+    </p>
+    <p>
+      <strong>Modified:</strong>
+      {{ post.modification_date | date: 'mediumDate' }}
+      {{ post.modification_date | date: 'shortTime' }}
+    </p>
+  </div>
+
+  <mat-divider class="padded-divider" />
+
+  <!-- Full Post Button -->
+  <div>
+    <button mat-stroked-button [routerLink]="['/news', post.slug]">
+      Post Details
+    </button>
+  </div>
 </mat-card>

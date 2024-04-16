@@ -25,11 +25,10 @@ import { NewsPostDetailsCard } from './widgets/news-post-details-card/news-post-
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { NewsFullCardComponent } from './widgets/news-full-card/news-full-card.component';
 
 @NgModule({
   declarations: [
-    NewsPostComponent
-
     // Pipes
   ],
   imports: [

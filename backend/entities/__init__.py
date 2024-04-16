@@ -22,6 +22,7 @@ from .user_role_table import user_role_table
 from .organization_entity import OrganizationEntity
 from .event_entity import EventEntity
 from .event_registration_entity import EventRegistrationEntity
+from .news_post_entity import NewsPostEntity
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"

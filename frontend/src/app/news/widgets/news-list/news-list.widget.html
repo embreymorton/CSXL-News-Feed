@@ -1,0 +1,44 @@
+<mat-card
+  class="events-section"
+  appearance="outlined"
+  [style]="
+    fullWidth
+      ? 'margin: 0 !important;max-width: 100%; padding: 16px; '
+      : 'padding: 16px; margin: 0px;'
+  ">
+  <div *ngIf="showHeader">
+    <div class="list-content">
+      <mat-card-title>News Posts</mat-card-title>
+      <button
+        mat-icon-button
+        *ngIf="showCreateButton"
+        [routerLink]="[
+          'events',
+          'organizations',
+          organization!,
+          'events',
+          'new',
+          'edit'
+        ]"
+        [relativeTo]="null">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <mat-divider class="list-divider" />
+  </div>
+
+  <p *ngIf="postsPerDay.length === 0">No posts found!</p>
+
+  <!-- `eventsPerDay` is in the format of a list of tuples, where
+         eventGroup[0] is the date string and eventGroup[1] s a list of events -->
+  <div *ngFor="let postGroup of postsPerDay" style="padding-bottom: 16px">
+    <mat-card-title>{{ postGroup[0] }}</mat-card-title>
+    <mat-divider class="list-event-group" />
+    <news-card
+      *ngFor="let post of postGroup[1]"
+      [post]="post"
+      [disableLink]="disableLinks"
+      [selected]="post === selectedPost"
+      (clicked)="cardClicked.emit(post)" />
+  </div>
+</mat-card>

@@ -1,10 +1,15 @@
+from datetime import datetime
 from pydantic import BaseModel
-from user import User
-from organization import Organization
+
+# from backend.test.services.news_post.news_post_demo_data import date_maker
+
+
+# from test.services.news_post.news_post_demo_data import date_maker
 
 __authors__ = ["Embrey Morton", "Ishmael Percy", "Jayson Mbugua", "Alphonzo Dixon"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
+
 
 class NewsPost(BaseModel):
     """
@@ -17,11 +22,11 @@ class NewsPost(BaseModel):
     id: int | None = None
     headline: str
     main_story: str
-    author: User
-    organization: Organization | None = None
+    author: str
+    organization_id: int | None = None
     state: str
     slug: str
-    image_url: str 
-    publish_date: str
-    modification_date: str
-
+    image_url: str
+    time: datetime
+    modification_date: datetime
+    synopsis: str | None = None

@@ -27,6 +27,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -50,6 +51,7 @@ import { NewsList } from './news/widgets/news-list/news-list.widget';
 import { NewsPostEditorComponent } from './news/news-post-editor/news-post-editor.component';
 import { NewsPostComponent } from './news/news-post/news-post.component';
 import { NewsFullCardComponent } from './news/widgets/news-full-card/news-full-card.component';
+import { NewsPostDraftsComponent } from './news/widgets/news-post-drafts/news-post-drafts.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { NewsFullCardComponent } from './news/widgets/news-full-card/news-full-c
     NewsCard,
     NewsList,
     NewsPostEditorComponent,
-    NewsFullCardComponent
+    NewsFullCardComponent,
+    NewsPostDraftsComponent
   ],
   imports: [
     /* Angular */
@@ -92,6 +95,7 @@ import { NewsFullCardComponent } from './news/widgets/news-full-card/news-full-c
     MatSidenavModule,
     MatSliderModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,

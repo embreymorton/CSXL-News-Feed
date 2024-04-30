@@ -1,23 +1,30 @@
-<mat-card class="news-post-container">
+<mat-card class="wrapper">
+  <!-- Card Title -->
   <mat-card-title class="header">
     {{ post.headline }}
   </mat-card-title>
 
-  <div></div>
+  <!-- Place the image directly under the title -->
+  <div *ngIf="post.image_url">
+    <img
+      class="image"
+      style="display: block; margin: 0 auto"
+      [src]="[post.image_url]" />
+  </div>
 
+  <!-- Author and Date -->
   <mat-card-title class="author">
-    {{ post.author + ': ' + (post.time | date: 'mediumDate') }}
+    {{
+      post.author?.first_name +
+        ' ' +
+        post.author?.last_name +
+        ': ' +
+        (post.time | date: 'mediumDate')
+    }}
   </mat-card-title>
 
-  <div></div>
-
+  <!-- Main Story -->
   <mat-card-title class="main_story" *ngFor="let paragraph of paragraphs">
     {{ paragraph }}
   </mat-card-title>
-
-  <!-- <div>
-    <img
-      class="image"
-      src="https://lh4.googleusercontent.com/proxy/ViNUZn1QZCXgV15mfoaD5HqwrXtKDDqArtdhpgNCSeouTrikhQinellOZABzTxBg82jwGLz_gBQKqcKmnLR3M7w" />
-  </div> -->
 </mat-card>

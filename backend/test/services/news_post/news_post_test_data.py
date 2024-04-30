@@ -4,6 +4,8 @@ from ....models.news_post import NewsPost
 from ....entities.news_post_entity import NewsPostEntity
 
 from .news_post_demo_data import date_maker
+from ..user_data import root, ambassador, user
+from ..organization.organization_test_data import appteam, cssg, cads
 
 from ..reset_table_id_seq import reset_table_id_seq
 
@@ -11,12 +13,12 @@ jaysonsPost = NewsPost(
     id=1,
     headline="Jayson's News Post",
     main_story="Jayson's main story",
-    author="Jayson",
-    organization_id=None,
+    author_id=root.id,
+    organization_id=appteam.id,
     state="published",
     slug="slug1",
     image_url="none",
-    time=date_maker(days_in_future=2, hour=10, minutes=0),
+    time=date_maker(days_in_future=-1, hour=0, minutes=0),
     modification_date=date_maker(days_in_future=2, hour=10, minutes=0),
     synopsis="Jayson's synopsis",
 )
@@ -25,50 +27,130 @@ treysPost = NewsPost(
     id=2,
     headline="Trey's News Post",
     main_story="Trey's main story",
-    author="Trey",
-    organization_id=None,
-    state="published",
+    author_id=root.id,
+    organization_id=cads.id,
+    state="draft",
     slug="slug2",
     image_url="none",
-    time=date_maker(days_in_future=-4, hour=15, minutes=0),
+    time=date_maker(days_in_future=-2, hour=0, minutes=0),
     modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
     synopsis="Trey's synopsis",
 )
 
-treysPostupdate = NewsPost(
-    id=2,
-    headline="Trey's News Post Updated",
-    main_story="Trey's main story Updated",
-    author="Trey",
-    organization_id=None,
-    state="published",
-    slug="slug2",
-    image_url="none",
-    time=date_maker(days_in_future=-4, hour=15, minutes=0),
-    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
-    synopsis="Trey's synopsis",
-)
-
-treysPost_2_conflicting_id = NewsPost(
+ishmaelsPost = NewsPost(
     id=3,
-    headline="Trey's News Post 2",
-    main_story="Trey's main story 2",
-    author="Trey",
+    headline="Ishmael's News Post",
+    main_story="Ishmael's main story",
+    author_id=ambassador.id,
+    organization_id=cssg.id,
+    state="incoming",
+    slug="slug3",
+    image_url="none",
+    time=date_maker(days_in_future=-4, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Ishmael's synopsis",
+)
+
+embreysPost = NewsPost(
+    id=4,
+    headline="Embrey's News Post",
+    main_story="Embrey's main story",
+    author_id=user.id,
+    organization_id=appteam.id,
+    state="archived",
+    slug="slug4",
+    image_url="none",
+    time=date_maker(days_in_future=-2, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Embrey's synopsis",
+)
+
+posts = [jaysonsPost, treysPost, embreysPost, ishmaelsPost]
+
+to_add = NewsPost(
+    id = None,
+    headline="Created News Post",
+    main_story="Created main story",
+    author_id=user.id,
     organization_id=None,
+    state="incoming",
+    slug="slug4",
+    image_url="none",
+    time=date_maker(days_in_future=-4, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Created synopsis",
+)
+
+to_update = NewsPost(
+    id=4,
+    headline="Embrey's News Post",
+    main_story="Embrey's main story",
+    author_id=user.id,
+    organization_id=appteam.id,
     state="published",
     slug="slug4",
     image_url="none",
     time=date_maker(days_in_future=-4, hour=15, minutes=0),
     modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
-    synopsis="Trey's synopsis 2",
+    synopsis="Embrey's synopsis",
 )
 
-posts = [jaysonsPost, treysPost, treysPost_2_conflicting_id]
-posts_names = [
-    jaysonsPost.author,
-    treysPost.author,
-    treysPost_2_conflicting_id.author,
-]
+invalid_post = NewsPost(
+    id=5,
+    headline="Ishmael's News Post",
+    main_story="Ishmael's main story",
+    author_id=ambassador.id,
+    organization_id=cssg.id,
+    state="incoming",
+    slug="invalid slug",
+    image_url="none",
+    time=date_maker(days_in_future=-4, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Ishmael's synopsis",
+)
+
+
+published_embrey_post = NewsPost(
+    id=4,
+    headline="Embrey's News Post",
+    main_story="Embrey's main story",
+    author_id=user.id,
+    organization_id=appteam.id,
+    state="published",
+    slug="slug4",
+    image_url="none",
+    time=date_maker(days_in_future=-2, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Embrey's synopsis",
+)
+
+draft_ishmael_post = NewsPost(
+    id=3,
+    headline="Ishmael's News Post",
+    main_story="Ishmael's main story",
+    author_id=ambassador.id,
+    organization_id=cssg.id,
+    state="draft",
+    slug="slug3",
+    image_url="none",
+    time=date_maker(days_in_future=-4, hour=15, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Ishmael's synopsis",
+)
+
+duplicate_treysPost = NewsPost(
+    id=None,
+    headline="Trey's News Post",
+    main_story="Trey's main story",
+    author_id=root.id,
+    organization_id=cads.id,
+    state="draft",
+    slug="slug2",
+    image_url="none",
+    time=date_maker(days_in_future=-2, hour=0, minutes=0),
+    modification_date=date_maker(days_in_future=-4, hour=15, minutes=0),
+    synopsis="Trey's synopsis",
+)
 
 
 def insert_fake_data(session: Session):

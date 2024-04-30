@@ -1,6 +1,6 @@
 """Definition of SQLAlchemy table-backed object mapping entity for Users."""
 
-from sqlalchemy import Integer, String, Boolean
+from sqlalchemy import Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 
@@ -60,7 +60,19 @@ class UserEntity(EntityBase):
     permissions: Mapped["PermissionEntity"] = relationship(back_populates="user")
 
     # Section relations that the user is a part of.
-    sections: Mapped[list["SectionMemberEntity"]] = relationship(back_populates="user")
+    sections: Mapped[list["SectionMemberEntity"]] = relationship(
+        back_populates="user"
+    )  ### This handles previous sections
+
+    # The applications for the  user.
+    applications: Mapped[list["ApplicationEntity"]] = relationship(
+        back_populates="user"
+    )
+
+    # NOTE: This field establishes a one-to-many relationship between the user and news post table.
+    posts: Mapped[list["NewsPostEntity"]] = relationship(
+       back_populates="author", cascade="all,delete"
+    )
 
     @classmethod
     def from_model(cls, model: User) -> Self:

@@ -22,11 +22,11 @@ class NewsPost(BaseModel):
     id: int | None = None
     headline: str
     main_story: str
-    author: str
+    author_id: int 
     organization_id: int | None = None
     state: str
     slug: str
-    image_url: str
+    image_url: str | None = None
     time: datetime
     modification_date: datetime
     synopsis: str | None = None

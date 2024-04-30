@@ -54,6 +54,11 @@ class OrganizationEntity(EntityBase):
         back_populates="organization", cascade="all,delete"
     )
 
+    # NOTE: This field establishes a one-to-many relationship between the organizations and news post table.
+    posts: Mapped[list["NewsPostEntity"]] = relationship(
+       back_populates="organization", cascade="all,delete"
+    )
+
     @classmethod
     def from_model(cls, model: Organization) -> Self:
         """
@@ -128,4 +133,5 @@ class OrganizationEntity(EntityBase):
             heel_life=self.heel_life,
             public=self.public,
             events=[event.to_model() for event in self.events],
+            posts=[post.to_model() for post in self.posts]
         )

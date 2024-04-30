@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NewsPost } from '../../news-post/news-post.model';
+import { NewsPost } from '../../news-post.model';
 import { Profile } from 'src/app/models.module';
 
 @Component({

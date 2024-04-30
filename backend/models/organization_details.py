@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+
+from backend.models.news_post import NewsPost
 from .organization import Organization
 from .event import Event
 
@@ -17,3 +19,4 @@ class OrganizationDetails(Organization):
     """
 
     events: list[Event]
+    posts: list[NewsPost]

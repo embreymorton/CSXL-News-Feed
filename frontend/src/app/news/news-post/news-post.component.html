@@ -1,3 +1,5 @@
-<ng-container *ngIf="newsPost">
-  <news-full-card [post]="newsPost"></news-full-card>
-</ng-container>
+<div *ngIf="viewable()">
+  <ng-container *ngIf="newsPost">
+    <news-full-card [post]="newsPost"></news-full-card>
+  </ng-container>
+</div>

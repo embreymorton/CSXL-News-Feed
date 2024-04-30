@@ -2,6 +2,7 @@
   padding: 4px 16px;
   margin: 0;
   height: 73vh;
+  width: flex;
   /* If content overflows card, add a scroll bar! */
   overflow-y: auto;
 }
@@ -46,6 +47,8 @@
   width: 100%;
   align-items: center;
   margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .event-title {
@@ -72,7 +75,7 @@
 }
 
 #organization-name {
-  margin-left: 1rem;
+  margin-left: 1rem
 }
 
 @media (prefers-color-scheme: light) {
@@ -92,4 +95,9 @@
 
 .organizers-text {
   margin: 0;
+}
+
+.post-details-button {
+  font-size: 1rem;
+  padding: 1.5rem 20px
 }

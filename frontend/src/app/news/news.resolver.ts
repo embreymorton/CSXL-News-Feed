@@ -1,12 +1,10 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { NewsPost } from './news-post/news-post.model';
+import { NewsPost } from './news-post.model';
 import { NewsPostService } from './news-post.service';
-import { EventService } from '../event/event.service';
-import { Event } from '../event/event.model';
 import { catchError, map, of } from 'rxjs';
 
-/** This resolver injects the list of organizations into the organization component. */
+/** This resolver injects the list of posts into the post component. */
 export const newsPostResolver: ResolveFn<NewsPost[] | undefined> = (
   route,
   state
@@ -14,20 +12,22 @@ export const newsPostResolver: ResolveFn<NewsPost[] | undefined> = (
   return inject(NewsPostService).getNewsPosts();
 };
 
-/** This resolver injects an organization into the organization detail component. */
+/** This resolver injects an post into the post detail component. */
 export const NewsPostDetailResolver: ResolveFn<NewsPost | undefined> = (
   route,
   state
 ) => {
-  // If the organization is new, return a blank one
+  // If the post is new, return a blank one
   if (route.paramMap.get('slug')! == 'new') {
     return {
       id: 0,
       headline: '',
       synopsis: '',
       main_story: '',
-      author: 'String',
-      organization: undefined,
+      author_id: null,
+      author: null,
+      organization_id: null,
+      organization: null,
       state: '',
       slug: '',
       image_url: '',
@@ -36,7 +36,7 @@ export const NewsPostDetailResolver: ResolveFn<NewsPost | undefined> = (
     };
   }
 
-  // Otherwise, return the organization.
+  // Otherwise, return the news post.
   // If there is an error, return undefined
   return inject(NewsPostService)
     .getNewsPost(route.paramMap.get('slug')!)
@@ -46,14 +46,4 @@ export const NewsPostDetailResolver: ResolveFn<NewsPost | undefined> = (
         return of(undefined);
       })
     );
-};
-
-/** This resolver injects the events for a given organization into the organization component. */
-export const NewsPostEventsResolver: ResolveFn<Event[] | undefined> = (
-  route,
-  state
-) => {
-  return inject(EventService).getEventsByOrganization(
-    route.paramMap.get('slug')!
-  );
 };

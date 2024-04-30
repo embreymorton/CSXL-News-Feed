@@ -19,7 +19,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AdminUsersListComponent } from './users/list/admin-users-list.component';
 import { AdminRolesListComponent } from './roles/list/admin-roles-list.component';
 import { AdminRoleDetailsComponent } from './roles/details/admin-role-details.component';
-import { AdminOrganizationListComponent } from './organization/list/admin-organization-list.component';
+import { AdminNewsListComponent } from './news/list/admin-news-list.component';
+import { AdminIncomingPostComponent } from './news/incoming/incoming.component';
+import { AdminArchivedPostsComponent } from './news/archived/admin-archived-posts.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { AdminOrganizationListComponent } from './organization/list/admin-organi
     AdminUsersListComponent,
     AdminRolesListComponent,
     AdminRoleDetailsComponent,
-    AdminOrganizationListComponent
+    AdminNewsListComponent,
+    AdminIncomingPostComponent,
+    AdminArchivedPostsComponent
   ],
   imports: [
     CommonModule,

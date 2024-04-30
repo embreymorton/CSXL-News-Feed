@@ -4,17 +4,23 @@
   <div class="event-title-container">
     <!-- Title -->
     <div class="event-title">
-      <mat-card-title [routerLink]="[post.id]">
+      <mat-card-title [routerLink]="[post.slug]">
         {{ post.headline }}
       </mat-card-title>
     </div>
 
     <!-- Buttons -->
     <div class="event-actions">
-      <button mat-icon-button [routerLink]="[post.slug, 'edit']">
+      <button
+        mat-icon-button
+        *ngIf="this.adminPermission$ | async"
+        [routerLink]="[post.slug, 'edit']">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="deletePost(post)">
+      <button
+        mat-icon-button
+        *ngIf="this.adminPermission$ | async"
+        (click)="deletePost(post)">
         <mat-icon>delete</mat-icon>
       </button>
       <button mat-icon-button (click)="onShareButtonClick()">
@@ -25,9 +31,14 @@
   <mat-divider id="top-divider" />
 
   <!-- Organization Section -->
-  <div class="organization-section">
+  <div
+    *ngIf="post.organization"
+    class="organization-section"
+    [routerLink]="'/organizations/' + post.organization!.slug">
     <!-- Organization Icon -->
+    <img mat-card-image src="{{ post.organization!.logo }}" class="logo" />
     <!-- Organization Name -->
+    <p id="organization-name">{{ post.organization!.shorthand }}</p>
   </div>
 
   <mat-divider class="padded-divider" />
@@ -52,11 +63,12 @@
     </p>
   </div>
 
-  <mat-divider class="padded-divider" />
-
   <!-- Full Post Button -->
   <div>
-    <button mat-stroked-button [routerLink]="['/news', post.slug]">
+    <button
+      mat-stroked-button
+      class="post-details-button"
+      [routerLink]="['/news', post.slug]">
       Post Details
     </button>
   </div>

@@ -3,88 +3,109 @@
 <!-- HTML Structure of Organization Editor Page -->
 
 <!-- news-post-editor.component.html -->
-<form [formGroup]="newsPostForm" (ngSubmit)="onSubmit()">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title *ngIf="newsPost_slug === 'new'; else update">
-        Create News Post
-      </mat-card-title>
-      <ng-template #update>
-        <mat-card-title> Update News Post </mat-card-title>
-      </ng-template>
-    </mat-card-header>
-    <mat-card-content>
-      <!-- News Post Headline Field -->
-      <mat-form-field appearance="outline" color="accent">
-        <mat-label>Headline</mat-label>
-        <input
-          matInput
-          placeholder="Enter headline"
-          formControlName="headline"
-          required />
-      </mat-form-field>
-      <!-- News Post Synopsis Field -->
-      <mat-form-field appearance="outline" color="accent">
-        <mat-label>Synopsis</mat-label>
-        <input
-          matInput
-          placeholder="Enter synopsis"
-          formControlName="synopsis"
-          required />
-      </mat-form-field>
-      <!-- Main Story Field -->
-      <mat-form-field appearance="outline" color="accent">
-        <mat-label>Main Story</mat-label>
-        <textarea
-          matInput
-          placeholder="Enter main story"
-          formControlName="main_story"
-          rows="25">
-        </textarea>
-      </mat-form-field>
-      <!-- Author Field -->
+<div class="container" *ngIf="editable()">
+  <div class="row">
+    <div class="events-column">
+      <form [formGroup]="newsPostForm" (ngSubmit)="onSubmit()">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title *ngIf="newsPost_slug === 'new'; else update">
+              Create News Post
+            </mat-card-title>
+            <ng-template #update>
+              <mat-card-title> Update News Post </mat-card-title>
+            </ng-template>
+          </mat-card-header>
+          <mat-card-content>
+            <!-- News Post Headline Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Headline</mat-label>
+              <input
+                matInput
+                placeholder="Enter headline"
+                formControlName="headline"
+                (change)="generateSlug()"
+                required />
+            </mat-form-field>
+            <!-- News Post Synopsis Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Synopsis</mat-label>
+              <input
+                matInput
+                placeholder="Enter synopsis"
+                formControlName="synopsis"
+                required />
+            </mat-form-field>
+            <!-- Main Story Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Main Story</mat-label>
+              <textarea
+                matInput
+                placeholder="Enter main story"
+                formControlName="main_story"
+                rows="15"
+                required>
+              </textarea>
+            </mat-form-field>
+            <!-- Author Field
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Author</mat-label>
-        <input
-          matInput
-          placeholder="Enter author name"
-          formControlName="author"
-          required />
-      </mat-form-field>
-      <!-- Organization Field (Hidden) -->
-      <input type="hidden" formControlName="organization" />
-      <!-- State Field (Hidden) -->
-      <input type="hidden" formControlName="state" />
-      <!-- Slug Field -->
-      <mat-form-field appearance="outline" color="accent">
-        <mat-label>Slug</mat-label>
-        <input
-          matInput
-          placeholder="Enter slug"
-          formControlName="slug"
-          required />
-      </mat-form-field>
-      <!-- Image URL Field -->
-      <mat-form-field appearance="outline" color="accent">
-        <mat-label>Image URL</mat-label>
-        <input
-          matInput
-          placeholder="Enter image URL"
-          formControlName="image_url" />
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <!-- Cancel Button -->
-      <button mat-stroked-button type="button" (click)="onCancel()">
-        Cancel
-      </button>
-      <!-- Submit Button -->
-      <button
-        mat-stroked-button
-        type="submit"
-        [disabled]="newsPostForm.invalid">
-        Save
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+        <input matInput placeholder="Enter author name" />
+      </mat-form-field> -->
+            <!-- Organization Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Organization ID</mat-label>
+              <input
+                matInput
+                placeholder="Optional organization ID"
+                formControlName="organization_id" />
+            </mat-form-field>
+            <!-- Slug Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Slug</mat-label>
+              <input
+                matInput
+                placeholder="Enter slug"
+                formControlName="slug"
+                required />
+            </mat-form-field>
+            <!-- Image URL Field -->
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Image URL</mat-label>
+              <input
+                matInput
+                placeholder="Enter image URL"
+                formControlName="image_url" />
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions class="action-buttons-layout">
+            <!-- Cancel Button -->
+            <button mat-stroked-button type="button" (click)="onCancel()">
+              Cancel
+            </button>
+            <!-- Save Draft Button -->
+            <button mat-stroked-button type="button" (click)="onSubmitDraft()">
+              Save Draft
+            </button>
+            <span class="spacer"></span>
+            <!-- Submit Button -->
+            <button
+              mat-stroked-button
+              type="submit"
+              [disabled]="newsPostForm.invalid">
+              Submit
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+    <div class="details-column" *ngIf="this.drafts.length !== 0">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Drafted Posts </mat-card-title></mat-card-header
+        >
+        <app-news-post-drafts [allPost]="drafts" [fullWidth]="false"
+      /></mat-card>
+    </div>
+  </div>
+</div>

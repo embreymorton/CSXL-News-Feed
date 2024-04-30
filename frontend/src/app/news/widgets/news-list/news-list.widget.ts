@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NewsPost } from '../../news-post/news-post.model';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { NewsPost } from '../../news-post.model';
 import { Organization } from 'src/app/organization/organization.model';
 
 @Component({

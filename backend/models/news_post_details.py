@@ -1,5 +1,7 @@
 from pydantic import BaseModel
-from .event import Event
+
+from backend.models.organization import Organization
+from backend.models.user import User
 from .news_post import NewsPost
 
 __authors__ = ["Embrey Morton", "Ishmael Percy", "Jayson Mbugua", "Alphonzo Dixon"]
@@ -9,4 +11,5 @@ __license__ = "MIT"
 
 class NewsPostDetails(NewsPost):
 
-    events: list[Event] | None = None
+    author: User | None = None
+    organization: Organization | None = None

@@ -3,15 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subscription, map } from 'rxjs';
-import {
-  NewsPost,
-  NewsPostJson,
-  parsePostJson
-} from './news-post/news-post.model';
+import { NewsPost, NewsPostJson, parsePostJson } from './news-post.model';
 import { DatePipe } from '@angular/common';
 import { EventPaginationParams, PaginatedEvent } from '../pagination';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { EventJson, parseEventJson } from '../event/event.model';
+import { Organization } from '../organization/organization.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,46 +33,35 @@ export class NewsPostService {
    * @returns {Observable<NewsPost[]>}
    */
   getNewsPosts(): Observable<NewsPost[]> {
-    // const post1 = {
-    //   id: 1,
-    //   headline: 'News Feed Component in the Works 1',
-    //   synopsis: 'Team B1 is still Grinding',
-    //   main_story:
-    //     'Team B1 has been grinding during Sprint One to create a news feed component for COMP 423. The formatting is improving.',
-    //   author: 'Team B1',
-    //   organization: undefined,
-    //   state: 'string',
-    //   slug: 'string',
-    //   image_url: 'string',
-    //   publish_date: new Date(), // Today
-    //   modification_date: new Date() // Today
-    // };
+    return this.http.get<NewsPost[]>('/api/news');
+  }
 
-    // const post2 = {
-    //   ...post1,
-    //   id: 2,
-    //   headline: 'News Feed Component in the Works 2',
-    //   publish_date: new Date(new Date().setDate(new Date().getDate() - 1)), // Yesterday
-    //   modification_date: new Date(new Date().setDate(new Date().getDate() - 1)) // Yesterday
-    // };
+  /** Returns all draft entries from the backend database table using the backend HTTP get request.
+   * @returns {Observable<NewsPost[]>}
+   */
+  getDrafts(): Observable<NewsPost[]> {
+    return this.http.get<NewsPost[]>('/api/news/drafts');
+  }
 
-    // const post3 = {
-    //   ...post1,
-    //   id: 3,
-    //   headline: 'News Feed Component in the Works 3',
-    //   publish_date: new Date(new Date().setDate(new Date().getDate() - 2)), // 2 days ago
-    //   modification_date: new Date(new Date().setDate(new Date().getDate() - 2)) // 2 days ago
-    // };
+  /** Returns all published newsPost entries by an organization using the backend HTTP get request.
+   * @returns {Observable<NewsPost[]>}
+   */
+  getNewsPostsByOrganization(slug: String): Observable<NewsPost[]> {
+    return this.http.get<NewsPost[]>('/api/news/organization/' + slug);
+  }
 
-    // let dummy_list: NewsPost[] = [];
-    // dummy_list.push(post1);
-    // dummy_list.push(post2);
-    // dummy_list.push(post3);
-    // dummy_list.push(post3);
+  /** Returns all published newsPost entries by a user using the backend HTTP get request.
+   * @returns {Observable<NewsPost[]>}
+   */
+  getNewsPostsByAuthor(id: number): Observable<NewsPost[]> {
+    return this.http.get<NewsPost[]>('/api/news/author/' + id);
+  }
 
-    // return dummy_list;
-
-    return this.http.get<NewsPost[]>('/api/news_posts');
+  /** Returns all draft newsPost entries by a user using the backend HTTP get request.
+   * @returns {Observable<NewsPost[]>}
+   */
+  getDraftsByAuthor(id: number): Observable<NewsPost[]> {
+    return this.http.get<NewsPost[]>('/api/news/author/drafts/' + id);
   }
 
   /** Returns the newsPost object from the backend database table using the backend HTTP get request.
@@ -83,7 +69,7 @@ export class NewsPostService {
    * @returns {Observable<NewsPost>}
    */
   getNewsPost(slug: string): Observable<NewsPost> {
-    return this.http.get<NewsPost>('/api/news_posts/' + slug);
+    return this.http.get<NewsPost>('/api/news/' + slug);
   }
 
   /** Returns the new newsPost object from the backend database table using the backend HTTP post request.
@@ -91,7 +77,7 @@ export class NewsPostService {
    * @returns {Observable<NewsPost>}
    */
   createNewsPost(newsPost: NewsPost): Observable<NewsPost> {
-    return this.http.post<NewsPost>('/api/news_posts', newsPost);
+    return this.http.post<NewsPost>('/api/news', newsPost);
   }
 
   /** Returns the updated newsPost object from the backend database table using the backend HTTP put request.
@@ -99,11 +85,16 @@ export class NewsPostService {
    * @returns {Observable<NewsPost>}
    */
   updateNewsPost(newsPost: NewsPost): Observable<NewsPost> {
-    return this.http.put<NewsPost>('/api/news_posts', newsPost);
+    return this.http.put<NewsPost>('/api/news', newsPost);
   }
 
   deleteNewsPost(newsPost: NewsPost): Observable<NewsPost> {
-    return this.http.delete<NewsPost>('/api/news_posts');
+    return this.http.delete<NewsPost>('/api/news/' + newsPost.slug);
+  }
+
+  publishNewsPost(newsPost: NewsPost): Observable<NewsPost> {
+    newsPost.state = 'published';
+    return this.http.put<NewsPost>('/api/news', newsPost);
   }
 
   groupPostsByDate(
@@ -138,9 +129,14 @@ export class NewsPostService {
     };
     let query = new URLSearchParams(paramStrings);
     if (this.profile) {
+      // this.http
+      //   .get<PaginatedEvent<NewsPostJson>>(
+      //     'api/news_posts/paginate?' + query.toString()
+      //   )
+      //   .subscribe((values) => console.log(values));
       return this.http
         .get<PaginatedEvent<NewsPostJson>>(
-          'api/news_posts/paginate?' + query.toString()
+          'api/news/paginate?' + query.toString()
         )
         .pipe(
           map((paginated) => ({
@@ -152,7 +148,7 @@ export class NewsPostService {
       // if a user isn't logged in, return the normal endpoint without registration statuses
       return this.http
         .get<PaginatedEvent<NewsPostJson>>(
-          'api/news_posts/paginate?' + query.toString()
+          'api/news/paginate/unauthenticated?' + query.toString()
         )
         .pipe(
           map((paginated) => ({

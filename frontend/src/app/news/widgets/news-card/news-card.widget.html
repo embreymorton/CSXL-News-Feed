@@ -18,8 +18,11 @@
         {{ post.synopsis }}
       </p>
       <p class="event-location">
-        {{ post.author }}
+        {{ post.author?.first_name + ' ' + post.author?.last_name }}
       </p>
     </div>
   </div>
 </mat-card>
+<button mat-icon-button *ngIf="post.state === 'draft'" (click)="editPost(post)">
+  <mat-icon>edit</mat-icon>
+</button>

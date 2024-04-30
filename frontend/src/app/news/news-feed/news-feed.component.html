@@ -16,7 +16,7 @@
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
           <p *ngIf="today; else not_today" class="date-range-text">
-            Today <code>&#8212;</code> {{ endDate | date: 'mediumDate' }}
+            {{ startDate | date: 'mediumDate' }} <code>&#8212;</code> Today
           </p>
           <ng-template #not_today>
             <p class="date-range-text">
@@ -45,7 +45,7 @@
       </div>
     </div>
     <!-- Create Post Button -->
-    <div class="create-button">
+    <div class="create-button" *ngIf="this.profile">
       <button mat-stroked-button [routerLink]="['new', 'edit']">
         Create Post
       </button>

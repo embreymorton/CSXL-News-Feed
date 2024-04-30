@@ -1,21 +1,22 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { NewsPost } from '../../news-post/news-post.model';
+import { NewsPost } from '../../news-post.model';
 import { Profile } from 'src/app/models.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewsPostService } from '../../news-post.service';
 import { PermissionService } from 'src/app/permission.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'news-post-details-card',
   templateUrl: './news-post-details-card.widget.html',
   styleUrls: ['./news-post-details-card.widget.css']
 })
-export class NewsPostDetailsCard {
+export class NewsPostDetailsCard implements OnInit {
   @Input() post!: NewsPost;
-
   @Input() profile!: Profile;
+  adminPermission$!: Observable<boolean>;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -23,6 +24,13 @@ export class NewsPostDetailsCard {
     private permission: PermissionService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.adminPermission$ = this.permission.check(
+      'organization.events.*',
+      `organization/${this.post.organization_id!}`
+    );
+  }
 
   deletePost(post: NewsPost): void {
     let confirmDelete = this.snackBar.open(

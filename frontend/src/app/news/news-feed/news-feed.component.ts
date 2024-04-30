@@ -6,7 +6,7 @@ import {
   inject
 } from '@angular/core';
 import { NewsPostService } from '../news-post.service';
-import { NewsPost } from '../news-post/news-post.model';
+import { NewsPost } from '../news-post.model';
 import { PaginatedEvent } from 'src/app/pagination';
 import {
   Subject,
@@ -28,25 +28,25 @@ import { profileResolver } from 'src/app/profile/profile.resolver';
 })
 export class NewsFeedComponent implements OnInit, OnDestroy {
   public page: PaginatedEvent<NewsPost>;
-  public startDate = new Date();
-  public endDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
+  public startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+  public endDate = new Date();
   public today: boolean = true;
 
   //postList: NewsPost[] = this.newsService.getNewsPosts();
 
   private static EventPaginationParams = {
     order_by: 'time',
-    ascending: 'true',
+    ascending: 'false',
     filter: '',
-    range_start: new Date().toLocaleString('en-GB'),
-    range_end: new Date(
-      new Date().setMonth(new Date().getMonth() + 1)
-    ).toLocaleString('en-GB')
+    range_start: new Date(
+      new Date().setDate(new Date().getDate() - 7)
+    ).toLocaleString('en-GB'),
+    range_end: new Date().toLocaleString('en-GB')
   };
 
   public static Route = {
     path: 'news',
-    title: 'CSXL News Feed',
+    title: 'News Feed',
     component: NewsFeedComponent,
     canActivate: [],
     resolve: {
@@ -92,7 +92,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.profile = data.profile;
     this.page = data.page;
     this.today =
-      this.startDate.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
+      this.endDate.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
 
     // Group events by their dates
     this.postsPerDay = newsService.groupPostsByDate(this.page.items);
@@ -122,10 +122,10 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params: Params): void => {
       this.startDate = params['start_date']
         ? new Date(Date.parse(params['start_date']))
-        : new Date();
+        : new Date(new Date().setDate(new Date().getDate() - 7));
       this.endDate = params['end_date']
         ? new Date(Date.parse(params['end_date']))
-        : new Date(new Date().setMonth(new Date().getMonth() + 1));
+        : new Date();
     });
 
     const today = new Date();
@@ -205,18 +205,26 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   }
 
   showPosts(isPrevious: boolean) {
-    //let paginationParams = this.page.params;
+    // Cannot go past today
+    if (isPrevious == false && this.today) {
+      return;
+    }
+
     this.startDate = isPrevious
-      ? new Date(this.startDate.setMonth(this.startDate.getMonth() - 1))
-      : new Date(this.startDate.setMonth(this.startDate.getMonth() + 1));
+      ? new Date(this.startDate.setDate(this.startDate.getDate() - 7))
+      : new Date(this.startDate.setDate(this.startDate.getDate() + 7));
     this.endDate = isPrevious
-      ? new Date(this.endDate.setMonth(this.endDate.getMonth() - 1))
-      : new Date(this.endDate.setMonth(this.endDate.getMonth() + 1));
+      ? new Date(this.endDate.setDate(this.endDate.getDate() - 7))
+      : new Date(this.endDate.setDate(this.endDate.getDate() + 7));
     if (isPrevious === true) {
       this.page.params.ascending = 'false';
     }
     this.today =
-      this.startDate.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
+      this.endDate.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
+
+    this.startDate = new Date(this.startDate.setHours(0, 0, 0));
+    this.endDate = new Date(this.endDate.setHours(23, 59, 59));
+
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
